@@ -1,0 +1,12 @@
+.card{
+    margin-left: 13em;
+    margin-top: 2%;
+}
+h1{
+    text-align: center;
+    font-size: 70px;
+}
+.card.one{
+    margin-left: 8em;
+    margin-top: 2%;
+}

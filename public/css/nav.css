@@ -1,0 +1,46 @@
+a.navbar-brand.right{
+    margin-right: 550px;
+}
+a.navbar-brand.left{
+    margin-left: 550px;
+}
+a.navbar-brand.rightt{
+    margin-right:567px;
+}
+a.navbar-brand.leftt{
+    margin-left: 550px;
+}
+form.d-flex{
+    margin-left: 40%;
+    height: 40px;
+}
+div.container-fluid.nav{
+    height: 40px;
+
+}
+
+
+
+.main {
+    width: 50%;
+    margin: 50px auto;
+}
+
+/* Bootstrap 4 text input with search icon */
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+    width: 30rem;
+    position: relative;
+    left: 11rem;
+}
+
+.has-search .form-control-feedback {
+    position: relative;
+    width: 0.5rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
