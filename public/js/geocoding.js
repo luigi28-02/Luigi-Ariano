@@ -34,14 +34,3 @@ function getCoordinatesFromAddress(address, callback) {
         });
 }
 module.exports={getCoordinatesFromAddress};
-// Esempio di utilizzo della funzione
-/*
-var indirizzo = 'Pollena Trocchia';
-getCoordinatesFromAddress(indirizzo, function(error, coordinates) {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log('Latitude: ' + coordinates.latitude + ', Longitude: ' + coordinates.longitude);
-    }
-});
-*/

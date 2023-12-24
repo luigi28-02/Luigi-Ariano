@@ -65,9 +65,10 @@ the user or business can register and log in
         alert("The email does not exist");
     </script>
 <%}%>
-<%if(typeof flagpassworderror !="undefined" && flagpassworderror===false){ %>
+
+<%if(typeof flagpassworderror !="undefined" && flagpassworderror){ %>
     <script>
-       console.log("correct password")
+       alert("Wrong Password");
     </script>
 
 <% }%>

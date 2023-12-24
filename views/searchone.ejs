@@ -45,6 +45,7 @@
         <img src="/<%=activityone.imagePath%>" class="card-img-top" alt="..."><br>
         <div class="card-body">
             <p class="card-text"><%=activityone.name%> <span>vote: <span><%=activityone.finalrating%></span></span></p>
+            <p class="card-text"><%=parseFloat(a.distanza)%> km</p>
             <p class="card-text" ><%=activityone.address%></p>
             <p class="card-text"><%=activityone.category%> </p>
             <p class="card-text"><%=activityone.description%></p>
@@ -73,23 +74,12 @@
                 <% activityone.reviews.forEach(attivita => { %>
                         <div class="review">
                             <p class="author"><%=attivita.nickname%></p>
-                            <p class="date">10 gennaio 2023</p>
+                            <p class="date"><%=attivita.date.day%>/<%=attivita.date.month%>/<%=attivita.date.year%>  <%=attivita.date.hour%>:<%=attivita.date.minute%></p>
                             <p><%=attivita.comment%></p>
                         </div>
                         <% });}else{%>
                         <p>No reviews found<p>
                     <%}%>
-                    <div class="review">
-                        <p class="author">Mario Rossi</p>
-                        <p class="date">10 gennaio 2023</p>
-                        <p>Questa è una recensione fantastica! Mi è piaciuto molto il prodotto.</p>
-                    </div>
-
-                    <div class="review">
-                        <p class="author">Anna Verdi</p>
-                        <p class="date">15 febbraio 2023</p>
-                        <p>Il servizio clienti è eccezionale. Rispondono rapidamente e risolvono i problemi in modo efficiente.</p>
-                    </div>
 
             </div>
         </div>
@@ -100,7 +90,7 @@
     <br> <br> <br> <br>
     <nav class="navbar fixed-bottom navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand left" href="../public/Mappa.html"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+            <a class="navbar-brand left" href="/public/Mappa.html"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                     <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                 </svg></a>
 

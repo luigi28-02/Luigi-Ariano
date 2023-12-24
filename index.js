@@ -7,7 +7,7 @@
     const {collection,collectionactivity}=require('./config');
     const {Collection} = require("mongoose");
     const geolib = require('./public/node_modules/geolib');
-    const {addImageToDatabase,viewImageByDatabase,viewActivities,isAuthenticated,getCoordinatesFromAddress}=require('./public/js/ServerMethod');
+    const {isAuthenticated,getCoordinatesFromAddress}=require('./public/js/ServerMethod');
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, 'public/uploads/'); // Salva le immagini nella cartella 'uploads/'
@@ -27,14 +27,13 @@
     app.use('/login', isAuthenticated);
 
     //Set up middleware to serve static files from the public folder
-
     app.use('/public',express.static(path.join(__dirname,'public')));
     app.use(express.static(path.join(__dirname, 'public')));
     app.set('view engine','ejs');
-
-    //I use app.get to provide the resources
-    //For the login page
     let arraysort=null;
+    //I use app.get to provide the resources
+
+    //For the login page
     app.get('/',(req,res)=>{
         res.render('index');
     });
@@ -46,15 +45,23 @@
     app.get('/newactivity',(req,res)=>{
         res.sendFile('newtousactivity.html',{root: __dirname + "/public"});
     });
-    //For the user or the activity wich forgot the wword
+
+    //For the user or the activity wich forgot the password
     app.get('/forgotpassword',(req,res)=>{
         res.sendFile('Forgot_Password.html',{root: __dirname + "/public"});
     });
-    //Need of the user/activity authentication and view the page of search for the user
+
+
+    //the page of search for the user
+
+
+    //This post is for send the activities in order of distance at the front-end
 
     app.post('/login/search', async (req, res) => {
         try {
+            //Search all the activity in the monogodb database
             const activity = await collectionactivity.find();
+            //Take the user position from the body
             const userLocation = {
                 latitude: parseFloat(req.body.latitude),
                 longitude: parseFloat(req.body.longitude)
@@ -62,10 +69,7 @@
 
             const activitiesWithDistance = activity.map(attivita => {
                 console.log("userlocation latitude"+userLocation.latitude + "userlocation longitude"+userLocation.longitude);
-                let aclatitude=parseFloat(attivita.latitude);
-                let aclongitude=parseFloat(attivita.longitude) + 100;
-
-                console.log("ACLATITUDE E AC LONGITUDE:" + aclongitude);
+                //geolib.getDistance return a number witch rapresents the distance between two point. We want know di distance between the user and the activity
                 const distance = geolib.getDistance(
                     {
                         latitude: userLocation.latitude,
@@ -76,30 +80,33 @@
                         longitude: attivita.longitude
                     }
                 );
+                //The distance returned is in m but we need that it is in km. For the conversion we need to do distance/1000
                 console.log(distance/1000);
+
                 return {
                     attivita: attivita,
                     distanza: distance
                 };
             });
-
+            //We need to ordinate the activity for they distance
             const sortedActivities = activitiesWithDistance.sort((a, b) => a.distanza - b.distanza);
             sortedActivities.forEach(item => {
                 console.log('Attività:', item.attivita, 'Distanza:', parseFloat(item.distanza));
             });
             arraysort=sortedActivities;
             console.log("arraysort in post"+ arraysort);
-            res.json(activitiesWithDistance);
+            //The response
+            res.json(arraysort);
+            //res.json(activitiesWithDistance);
         } catch (error) {
             console.error('Errore durante il recupero del percorso dell\'immagine:', error);
             res.status(500).json({ error: 'Errore durante il recupero del percorso dell\'immagine' });
         }
     });
-
+    //get the page of search of the all company
     app.get('/login/search',async (req,res)=>{
         try {
             console.log(arraysort);
-            //const activity=await collectionactivity.find();
             res.render('search', {activity:arraysort});
         } catch (error) {
             console.error('Errore durante il recupero del percorso dell\'immagine:', error);
@@ -107,22 +114,25 @@
         }
     });
     let activityone=null;
+    let a;
+    //When the user clicks on an activity on the search page, they are taken to the company's page they clicked on.
     app.get('/login/search/:id',async (req,res)=>{
       try{
-          console.log(req.params.id);
+          //The company's ID is passed as a parameter in the URL, and this ID is compared with its counterpart in the database.
           activityone= await collectionactivity.findOne({_id: req.params.id.toString()});
-          console.log(activityone.vote);
-          res.render('searchone',{activityone,check: req.user})
+          //We need the distance that is in the 'arraysort' array, which is composed of all the restaurants
+           a=arraysort.find(elemento => elemento.attivita.email ===activityone.email);
+          res.render('searchone',{activityone,a,check: req.user})
       }catch (error) {
           console.error('Errore durante il recupero del percorso dell\'immagine:', error);
           res.status(500).send('Errore durante il recupero del percorso dell\'immagine');
       }
-
     })
-    //Need of the user/activity authentication and render the profile of the user
+    //render the profile of the user
     app.get('/login/myprofile',async (req,res)=>{
         res.render('myprofile',{check: req.user});
     });
+    //When the user is in their profile and changes the username and password, these updates are reflected in the database, and the page is reloaded.
     app.post(('/login/myprofile'),upload.none(),async (req,res)=>{
         let check=req.user;
         check.name=req.body.name;
@@ -131,10 +141,11 @@
         check.save();
         res.render('myprofile',{check: req.user});
     });
+
     //API
+    //Search all the activities in the database
     app.get('/api/getDatabaseData', async (req, res) => {
         try {
-            // Logica per ottenere dati dal database con Mongoose
             let databaseData = await collectionactivity.find().lean();
             console.log(databaseData);
             res.json(databaseData);
@@ -152,7 +163,7 @@
             name:req.body.name,
             surname:req.body.surname
         }
-        //Check if the user already exists in the database
+        //Check if the user already exists in the database of user or activity
         const existingActivity=await collectionactivity.findOne({email:data.email})
         const existingUser=await collection.findOne({email:data.email})
         if(existingUser || existingActivity){
@@ -177,6 +188,7 @@
 
 
     //Register Activity
+    //For the register of the activty we need to save an image with upload.single
     app.post("/newactivity", upload.single('image'), async (req,res)=>{
         //Image path saved in the 'uploads/' folder
         const imagePath = req.file.path;
@@ -211,6 +223,7 @@
             data.password=hashedPassword;
             const userdata= await  collectionactivity.insertMany([data]);
                 flag=true;
+                //The activity inserts an address, which we convert into latitude and longitude
                 getCoordinatesFromAddress(req.body.address,  async function (error, coordinates) {latitude=coordinates.latitude;longitude=coordinates.longitude; console.log(longitude + "longitudine" + latitude + "latitudine");
                     const user=await collectionactivity.findOne({email:req.body.email});
                     user.latitude=coordinates.latitude;
@@ -223,6 +236,7 @@
     });
 
 
+
     //Login User or Activity
     let flagpassworderror=false;
     app.post('/login',async (req,res)=> {
@@ -230,12 +244,11 @@
             console.log(req.user.name);
             res.render('myprofile', { check: req.user });
         }else if(req.isActivityAuthenticated){
-            console.log(req.user.name);
-            res.render('index', { check: req.user });
-        }else{
-            console.log("wrong password");
-            res.render('index',{flagpassworderror:false});
+            console.log(flagpassworderror);
+            res.render('activity',{ check: req.user });
+
         }
+
     })
     //Recover the password
     //First I check that the email exists
@@ -273,15 +286,15 @@
             month = '0' + month;
         }
 
-        // Aggiungi uno zero iniziale se il giorno è inferiore a 10
+        // Add a leading zero if the day is less than 10.
         if (day < 10) {
             day = '0' + day;
         }
-        // Aggiungi uno zero iniziale se l'ora è inferiore a 10
+        //Add a leading zero if the hour is less than 10.
         if (hour < 10) {
             hour = '0' + hour;
         }
-        // Aggiungi uno zero iniziale se i minuti sono inferiori a 10
+        // Add a leading zero if the minute is less than 10.
         if (minute < 10) {
             minute = '0' + minute;
         }
@@ -315,11 +328,28 @@
     console.log(rating);
         result.finalrating=rating.toFixed(2);
         await result.save();
-        res.render('searchone',{activityone:result,check: req.user})
+        res.render('searchone',{activityone:result,a,check: req.user})
         });
-    //put the server to listen and I print a message
 
+    //The page of the activity
+    app.get('/login/activity',(req,res)=>{
+        res.render('activity',{check:req.user});
+    });
+    app.post('/login/activitychange',upload.none(),async (req,res)=>{
+        let updates=req.user;
+        updates.name=req.body.name;
+        console.log("name:" + req.body.name);
+        updates.save();
+        res.render('activity',{check:req.user});
+    });
+    app.get('*', (req, res) => {
+        res.render('index');
+    });
+
+
+
+    //put the server to listen and I print a message
     const port=3000;
     app.listen(port,()=>{
-        console.log(`Server Running on Port: ${port}`)
+        console.log(`Server Running on Port: ${port}  http://localhost:3000`)
     })

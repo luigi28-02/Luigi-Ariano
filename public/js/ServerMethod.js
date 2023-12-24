@@ -1,70 +1,14 @@
 const fs = require('fs').promises;
 const {collection,collectionactivity}=require('../../config');
 const bcrypt = require("bcrypt");
-//Database
-async function addImageToDatabase(imagePath) {
-    try {
-        // Verifica l'esistenza del file
-        const isFileExists = await fs.access(imagePath).then(() => true).catch(() => false);
 
-        if (!isFileExists) {
-            throw new Error(`File not found: ${imagePath}`);
-        }
-        // Leggi l'immagine come buffer di byte
-        const imageBuffer = await fs.readFile(imagePath);
-        return imageBuffer;
-        // Crea un'istanza del modello con l'immagine
-        //const imageInstance = new collectionactivity({ image: imageBuffer });
 
-        // Salva l'istanza nel database
-        //const result = await imageInstance.save();
-       // console.log('Image added to the database:', result._id);
-    } catch (error) {
-        console.error('Error adding image to the database:', error);
-    }
-}
-async function viewImageByDatabase(youremail){
-    const image=await collectionactivity.findOne({email:youremail});
-    if(image){
-        console.log(image);
-        return image;
-    }else{
-        console.log('error',image);
-        return null;
-    }
-
-    //res.contentType('image/jpg'); // Imposta il tipo di contenuto in base al tipo di immagine
-    //res.send(image.image);
-
-}
-
-//Methods for search.ejs
-async function viewActivities() {
-    try {
-        // Utilizza il metodo find con await
-        const result = await collectionactivity.find({});
-
-        // Accedi al campo 'nome' di ogni documento
-        const nomiAttivita = result.map(attivita =>({
-          name: attivita.name,
-          category: attivita.category,
-          address: attivita.address,
-          description:attivita.description,
-          image:attivita.image
-
-        }));
-        console.log(nomiAttivita);
-        return Promise.resolve(nomiAttivita);
-
-    } catch (err) {
-        console.error('Errore durante la ricerca delle tuple:', err);
-        return Promise.reject(err);
-    }
-}
 //User Login Middelware
 let isUserAuthenticated =  false;
 let isActivityAuthenticated=false;
 let user;
+let flagpassworderror=false;
+
  async function isAuthenticated(req, res, next){
 
     // Check if the user is authenticated
@@ -76,7 +20,6 @@ let user;
              if(!check && !checkactivity){
                  isUserAuthenticated=false;
                  isActivityAuthenticated=false;
-                 console.log(req.body.email);
              }
              //Compare the hash password  from the database with the plain text
              if(check){
@@ -85,19 +28,24 @@ let user;
                      isUserAuthenticated=true;
                      console.log(check.name);
                      user = check;
+                     flagpassworderror=false;
                  }else {
+                     flagpassworderror=true
                      isUserAuthenticated=false;
-                     console.log("Wrong Password");
+                     res.render('index',{flagpassworderror});
                  }
              }else{
                  const isPasswordMatch= await bcrypt.compare(req.body.password,checkactivity.password);
                  if(isPasswordMatch){
                      isActivityAuthenticated=true;
                      console.log(checkactivity.name);
+                     flagpassworderror=false;
                      user=checkactivity
                  }else {
                      isActivityAuthenticated=false;
                      console.log("wrong password activity");
+                     flagpassworderror=true;
+                     res.render('index',{flagpassworderror});
                  }
              }
 
@@ -105,13 +53,13 @@ let user;
 
          }
          if (isUserAuthenticated || isActivityAuthenticated) {
-             // Se l'utente è autenticato, prosegui alla prossima funzione di middleware
+             //If the user is authenticated, continue to the next middleware function
              req.user=user;
              req.isUserAuthenticated=isUserAuthenticated;
              req.isActivityAuthenticated=isActivityAuthenticated;
              next();
          } else {
-             // Se l'utente non è autenticato, reindirizza a una pagina di accesso o restituisci un errore
+             //If the user is not authenticated, redirect to a login page or return an error
              res.render('index');
          }
      }else{
@@ -151,9 +99,6 @@ function getCoordinatesFromAddress(address, callback) {
 
 
 module.exports={
-    addImageToDatabase,
-    viewImageByDatabase,
-    viewActivities,
     isAuthenticated,
     getCoordinatesFromAddress
 };
