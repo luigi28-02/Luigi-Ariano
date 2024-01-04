@@ -1,0 +1,86 @@
+{
+  "name": "Plant Eaters",
+  "short_name": "Plant Eaters",
+  "start_url": "./login",
+  "icons":
+          [
+            {
+              "src": "icons/LargeTile.scale-100.png",
+              "sizes": "310x310",
+              "type": "image/png"
+            },
+            {
+            "src": "icons/LargeTile.scale-125.png",
+            "sizes": "388x388",
+            "type": "image/png"
+          },
+            {
+              "src": "icons/LargeTile.scale-150.png",
+              "sizes": "465x465",
+              "type": "image/png"
+            },
+            {
+              "src": "icons/LargeTile.scale-200.png",
+              "sizes": "620x620",
+              "type": "image/png"
+            },
+            {
+              "src": "icons/LargeTile.scale-400.png",
+              "sizes": "1240x1240",
+              "type": "image/png"
+            },
+            {
+              "src": "icons/android-launchericon-512-512.png",
+              "sizes": "512x512",
+              "type": "image/png"
+            },
+            {
+              "src": "icons/android-launchericon-512-512.png",
+              "sizes": "512x512",
+              "type": "image/png"
+            },
+            {
+              "src": "icons/android-launchericon-192-192.png",
+              "sizes": "192x192",
+              "type": "image/png"
+            },
+            {
+              "src": "icons/android-launchericon-144-144.png",
+              "sizes": "144x144",
+              "type": "image/png"
+            },
+            {
+              "src": "icons/android-launchericon-96-96.png",
+              "sizes": "96x96",
+              "type": "image/png"
+            },
+            {
+              "src": "icons/android-launchericon-72-72.png",
+              "sizes": "72x72",
+              "type": "image/png"
+            },
+            {
+              "src": "icons/android-launchericon-48-48.png",
+              "sizes": "48x48",
+              "type": "image/png"
+            }
+          ],
+  "theme_color": "white",
+  "background_color": "white",
+  "display": "fullscreen",
+  "form_factor": "wide",
+  "authors":
+          [
+            {
+            "name": "Luigi Ariano",
+              "github": "https://github.com/luigi28-02"
+
+          },
+            {
+              "name": "Antonio Tridente",
+              "github": "https://github.com/AntonioTri"
+
+            }
+
+          ]
+  }
