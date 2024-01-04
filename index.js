@@ -8,12 +8,14 @@
     const {Collection} = require("mongoose");
     const geolib = require('./public/node_modules/geolib');
     const {isAuthenticated,getCoordinatesFromAddress}=require('./public/js/ServerMethod');
+
+    //Save images in the 'uploads/' folder
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, 'public/uploads/'); // Salva le immagini nella cartella 'uploads/'
+            cb(null, 'public/uploads/');
         },
         filename: function (req, file, cb) {
-            cb(null, Date.now() + '-' + file.originalname); // Nome univoco per evitare sovrascritture
+            cb(null, Date.now() + '-' + file.originalname); // Unique name to avoid overwriting
         },
     });
     const upload = multer({ storage: storage });
@@ -32,7 +34,6 @@
     app.set('view engine','ejs');
     let arraysort=null;
     //I use app.get to provide the resources
-
     //For the login page
     app.get('/',(req,res)=>{
         res.render('index');
@@ -147,6 +148,18 @@
     app.get('/api/getDatabaseData', async (req, res) => {
         try {
             let databaseData = await collectionactivity.find().lean();
+            console.log(databaseData);
+            res.json(databaseData);
+        } catch (error) {
+            console.error('Errore durante il recupero dei dati dal database:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    });
+
+    //All the user in the database
+    app.get('/api/getUserData', async (req, res) => {
+        try {
+            let databaseData = await collection.find().lean();
             console.log(databaseData);
             res.json(databaseData);
         } catch (error) {
@@ -351,5 +364,5 @@
     //put the server to listen and I print a message
     const port=3000;
     app.listen(port,()=>{
-        console.log(`Server Running on Port: ${port}  http://localhost:3000`)
+        console.log(`Server Running on Port: ${port}  http://localhost:${port}`)
     })

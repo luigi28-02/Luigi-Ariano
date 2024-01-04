@@ -43,3 +43,31 @@ div.container{
   margin-left: 600px;
   margin-bottom: 200px;
 }
+
+
+@media only screen and (min-width: 1202px) and (max-width: 1350px) {
+  .form-signin.w-100.mb-5{
+    margin-left: 500px;
+    margin-bottom: 200px;
+  }
+}
+
+@media only screen and (min-width: 819px) and (max-width: 1202px) {
+  .form-signin.w-100.mb-5{
+    margin-left: 300px;
+    margin-bottom: 200px;
+  }
+}
+@media only screen and (min-width: 620px) and (max-width: 819px) {
+  .form-signin.w-100.mb-5{
+    margin-left: 200px;
+    margin-bottom: 200px;
+  }
+}
+
+@media only screen and (min-width: 300px) and (max-width: 621px) {
+  .form-signin.w-100.mb-5{
+    margin-left: 10px;
+    margin-bottom: 200px;
+  }
+}

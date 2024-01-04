@@ -73,10 +73,10 @@ let flagpassworderror=false;
 
 
 function getCoordinatesFromAddress(address, callback) {
-    var api_key = '9bb4052e04084f13a97c3335b7160395';
-    var query = encodeURIComponent(address);
-    var api_url = 'https://api.opencagedata.com/geocode/v1/json';
-    var request_url = api_url + '?' + 'key=' + api_key + '&q=' + query + '&pretty=1' + '&no_annotations=1';
+    let api_key = '9bb4052e04084f13a97c3335b7160395';
+    let query = encodeURIComponent(address);
+    let api_url = 'https://api.opencagedata.com/geocode/v1/json';
+    let request_url = api_url + '?' + 'key=' + api_key + '&q=' + query + '&pretty=1' + '&no_annotations=1';
 
     fetch(request_url)
         .then(response => {
@@ -86,7 +86,7 @@ function getCoordinatesFromAddress(address, callback) {
             return response.json();
         })
         .then(data => {
-            var coordinates = {
+            let coordinates = {
                 latitude: data.results[0].geometry.lat,
                 longitude: data.results[0].geometry.lng
             };

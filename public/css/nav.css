@@ -44,3 +44,85 @@ div.container-fluid.nav{
     pointer-events: none;
     color: #aaa;
 }
+
+@media only screen and (min-width: 957px) and (max-width: 1464px) {
+    a.navbar-brand.right{
+        margin-right: 400px;
+    }
+    a.navbar-brand.left{
+        margin-left: 350px;
+    }
+    a.navbar-brand.rightt{
+        margin-right:350px;
+    }
+    a.navbar-brand.leftt{
+        margin-left: 350px;
+    }
+    form.d-flex{
+        margin-left: 40%;
+        height: 40px;
+    }
+    div.container-fluid.nav{
+        height: 20px;
+
+    }
+}
+
+
+
+@media only screen and (min-width: 300px) and (max-width: 958px) {
+    a.navbar-brand.right {
+        margin-right: 200px;
+    }
+
+    a.navbar-brand.left {
+        margin-left: 200px;
+    }
+
+    a.navbar-brand.rightt {
+        margin-right: 200px;
+    }
+
+    a.navbar-brand.leftt {
+        margin-left: 200px;
+    }
+
+    form.d-flex {
+        margin-left: 40%;
+        height: 40px;
+    }
+
+    div.container-fluid.nav {
+        height: 20px;
+
+    }
+}
+
+
+    @media only screen and (min-width: 300px) and (max-width: 575px) {
+        a.navbar-brand.right {
+            margin-right: 50px;
+        }
+
+        a.navbar-brand.left {
+            margin-left: 50px;
+        }
+
+        a.navbar-brand.rightt {
+            margin-right: 50px;
+        }
+
+        a.navbar-brand.leftt {
+            margin-left: 50px;
+        }
+
+        form.d-flex {
+            margin-left: 40%;
+            height: 40px;
+        }
+
+        div.container-fluid.nav {
+            height: 20px;
+
+        }
+    }

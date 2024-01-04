@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
     map.on('locationfound', function(e) {
         // Update the coordinates and radius of the circle
         circleMarker.setLatLng(e.latlng);
-        circleMarker.setRadius(10);  // Puoi aggiornare il raggio secondo le tue preferenze
+        circleMarker.setRadius(10);
 
         // Print the coordinates in the console
         console.log('Latitudine:', e.latlng.lat);
