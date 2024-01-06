@@ -1,4 +1,9 @@
 # Luigi-Ariano
+Partecipanti al progetto:
+Antonio Tridente:
+Luigi Ariano:0124002483
+
+
 File containing instructions to run the Plant Eaters PWA locally. Before following these steps, ensure you have Node.js, npm, and MongoDB installed.
 
 The steps are as follows:
