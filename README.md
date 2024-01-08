@@ -1,6 +1,6 @@
 # Luigi-Ariano
 Partecipanti al progetto:
-Antonio Tridente:
+Antonio Tridente: 0124002692
 Luigi Ariano:0124002483
 
 
