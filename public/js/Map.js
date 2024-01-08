@@ -137,12 +137,12 @@ document.addEventListener('DOMContentLoaded', function () {
     legend.onAdd = function (map) {
         let div = L.DomUtil.create('div', 'legend');
         div.innerHTML = '<h4>Legend</h4>' +
-            '<div class="a bar"><p>Resturant</p></div>' +
-            '<div class="a icecream"><p>Bar</p></div>' +
-            '<div class="a icecream"><p>Pub</p></div>' +
-            '<div class="a icecream"><p>Bakery</p></div>' +
-            '<div class="a icecream"><p>Rotissery</p></div>' +
-            '<div class="a bakery"><p>Ice Cream</p></div>';
+            '<div class="a restaurants"><p>Resturant</p></div>' +
+            '<div class="a bar"><p>Bar</p></div>' +
+            '<div class="a pub"><p>Pub</p></div>' +
+            '<div class="a backery"><p>Bakery</p></div>' +
+            '<div class="a rotissery"><p>Rotissery</p></div>' +
+            '<div class="a icecream"><p>Ice Cream</p></div>';
         return div;
     };
 

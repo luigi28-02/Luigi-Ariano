@@ -44,21 +44,27 @@ body, html {
     margin-top: 5px;
     width: 15px;
     height: 15px;
-    background-color: #000000;
+    background-color: #8754c0;
 }
-.a.bar{
+.a.rotissery{
     margin-top: 5px;
     width: 15px;
     height: 15px;
-    background-color: #000000;
+    background-color: #e3e188;
 }
 .a.icecream{
     margin-top: 5px;
     width: 15px;
     height: 15px;
-    background-color: #7c5f5f;
+    background-color: #63a2e0;
 }
-.a.bakery{
+.a.backery{
+    margin-top: 5px;
+    width: 15px;
+    height: 15px;
+    background-color: #efa337;
+}
+.a.pub{
     margin-top: 5px;
     width: 15px;
     height: 15px;
